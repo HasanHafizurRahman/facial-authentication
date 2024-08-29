@@ -1,11 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as faceapi from 'face-api.js';
 
-const Register = () => {
+const Register = ({ registeredFaces, setRegisteredFaces }) => { // Receive props here
   const videoRef = useRef(null);
   const [modelsLoaded, setModelsLoaded] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
-  const [registeredFaces, setRegisteredFaces] = useState([]);
 
   useEffect(() => {
     const loadModels = async () => {
@@ -34,10 +33,14 @@ const Register = () => {
 
   const handleRegisterFace = async () => {
     setIsRegistering(true);
-    const detections = await faceapi.detectSingleFace(videoRef.current).withFaceLandmarks().withFaceDescriptor();
+    const detections = await faceapi
+      .detectSingleFace(videoRef.current)
+      .withFaceLandmarks()
+      .withFaceDescriptor();
 
     if (detections) {
-      setRegisteredFaces(prevFaces => [...prevFaces, detections.descriptor]);
+      // Store descriptors using the setRegisteredFaces function from props
+      setRegisteredFaces((prevFaces) => [...prevFaces, detections.descriptor]);
       alert('Face registered successfully!');
     } else {
       alert('No face detected. Please try again.');

@@ -4,7 +4,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 
 function App() {
-  const [registeredFaces, setRegisteredFaces] = useState([]);
+  const [registeredFaces, setRegisteredFaces] = useState([]); // Move state here
 
   return (
     <Router>
@@ -18,7 +18,10 @@ function App() {
             path="/"
             element={<Register registeredFaces={registeredFaces} setRegisteredFaces={setRegisteredFaces} />}
           />
-          <Route path="/login" element={<Login registeredFaces={registeredFaces} />} />
+          <Route
+            path="/login"
+            element={<Login registeredFaces={registeredFaces} />}
+          />
         </Routes>
       </div>
     </Router>
@@ -26,4 +29,3 @@ function App() {
 }
 
 export default App;
-

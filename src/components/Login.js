@@ -36,12 +36,17 @@ const Login = ({ registeredFaces }) => {
     const detections = await faceapi.detectSingleFace(videoRef.current).withFaceLandmarks().withFaceDescriptor();
 
     if (detections) {
-      const faceMatcher = new faceapi.FaceMatcher(registeredFaces, 0.6);
-      const match = faceMatcher.findBestMatch(detections.descriptor);
-      if (match.label !== 'unknown') {
-        alert('Logged in successfully!');
+      // Check if there are any registered faces before creating the FaceMatcher
+      if (registeredFaces.length > 0) {
+        const faceMatcher = new faceapi.FaceMatcher(registeredFaces, 0.6);
+        const match = faceMatcher.findBestMatch(detections.descriptor);
+        if (match.label !== 'unknown') {
+          alert('Logged in successfully!');
+        } else {
+          alert('Face not recognized. Please try again.');
+        }
       } else {
-        alert('Face not recognized. Please try again.');
+        alert('No registered faces available. Please register first.');
       }
     } else {
       alert('No face detected. Please try again.');
