@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as faceapi from 'face-api.js';
+import { toast } from 'react-toastify';
 
 const Login = ({ registeredFaces }) => {
   const videoRef = useRef(null);
@@ -41,15 +42,15 @@ const Login = ({ registeredFaces }) => {
         const faceMatcher = new faceapi.FaceMatcher(registeredFaces, 0.6);
         const match = faceMatcher.findBestMatch(detections.descriptor);
         if (match.label !== 'unknown') {
-          alert('Logged in successfully!');
+          toast.success('Logged in successfully!', { position: 'top-right' });
         } else {
-          alert('Face not recognized. Please try again.');
+          toast.error('Face not recognized. Please try again.', { position: 'top-right' });
         }
       } else {
-        alert('No registered faces available. Please register first.');
+        toast.warn('No registered faces available. Please register first.', { position: 'top-right' });
       }
     } else {
-      alert('No face detected. Please try again.');
+      toast.error('No face detected. Please try again.', { position: 'top-right' });
     }
 
     setIsAuthenticating(false);
